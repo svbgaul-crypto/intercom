@@ -1,0 +1,49 @@
+poll_results
+{
+  "type": "pollResults",
+  "value": null
+}
+---
+{"op":"create_poll","poll_id":"poll_1","question":"Ship release this week?","options":["yes","no"]}
+{
+  "type": "createPoll",
+  "value": {
+    "op": "create_poll",
+    "poll_id": "poll_1",
+    "question": "Ship release this week?",
+    "options": [
+      "yes",
+      "no"
+    ]
+  }
+}
+---
+{"op":"cast_vote","poll_id":"poll_1","option":"yes"}
+{
+  "type": "castVote",
+  "value": {
+    "op": "cast_vote",
+    "poll_id": "poll_1",
+    "option": "yes"
+  }
+}
+---
+read_snapshot
+{
+  "type": "readSnapshot",
+  "value": null
+}
+---
+read_chat_last
+{
+  "type": "readChatLast",
+  "value": null
+}
+---
+read_timer
+{
+  "type": "readTimer",
+  "value": null
+}
+---
+

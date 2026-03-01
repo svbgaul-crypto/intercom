@@ -23,6 +23,35 @@ It includes setup steps, required runtime, first‑run decisions, and operationa
 Use the **Pear runtime only** (never native node).  
 Follow the steps in `SKILL.md` to install dependencies, run the admin peer, and join peers correctly.
 
+## Competition Run (2026-03-01)
+
+- Profile: `poll_station` (lifecycle topology, naming mode `compact`)
+- App concept: **Intercom Poll Station**
+- Inspired by: https://github.com/Shanks239/intercom
+- Payout Trac address: `trac1svbgaulcrypto09payout09placeholder09replace09me09`
+- Proof style: `tx_sim_focus`
+- Run channels:
+  - Subnet: `proof-poll-station`
+  - Sidechannel: `proof-vote-room`
+  - Store prefix: `proof-poll`
+
+### Command Set
+
+- Mutating command:
+  - `/tx --command "{\"op\":\"create_poll\",\"poll_id\":\"poll_1\",\"question\":\"Ship release this week?\",\"options\":[\"yes\",\"no\"]}"`
+- Extra command:
+  - `/tx --command "{\"op\":\"cast_vote\",\"poll_id\":\"poll_1\",\"option\":\"yes\"}"`
+- Query command:
+  - `/tx --command "poll_results"`
+
+### Proof Artifacts
+
+- `proof/run.log`
+- `proof/run-screenshot.png`
+- `proof/command-mapping.log`
+- `proof/README.md`
+- `proof/tx-sim.log`
+
 ## Architecture (ASCII map)
 Intercom is a single long-running Pear process that participates in three distinct networking "planes":
 - **Subnet plane**: deterministic state replication (Autobase/Hyperbee over Hyperswarm/Protomux).

@@ -729,3 +729,31 @@ Use these repos for deeper troubleshooting or protocol understanding:
 - `main_settlement_bus` (commit `5088921`): https://github.com/Trac-Systems/main_settlement_bus
 - `trac-crypto-api` (commit `b3c781d`): https://github.com/Trac-Systems/trac-crypto-api
 - `trac-wallet` (npm `1.0.1`): https://www.npmjs.com/package/trac-wallet
+
+## Competition Command Examples (Poll Station Run)
+
+Run profile:
+- `profile_id`: `poll_station`
+- `topology`: `lifecycle`
+- `proof_style`: `tx_sim_focus`
+- `payout_trac`: `trac1svbgaulcrypto09payout09placeholder09replace09me09`
+
+Primary transaction commands:
+- Create poll:
+  - `/tx --command "{\"op\":\"create_poll\",\"poll_id\":\"poll_1\",\"question\":\"Ship release this week?\",\"options\":[\"yes\",\"no\"]}"`
+- Cast vote:
+  - `/tx --command "{\"op\":\"cast_vote\",\"poll_id\":\"poll_1\",\"option\":\"yes\"}"`
+- Read results:
+  - `/tx --command "poll_results"`
+
+Simulation-first examples:
+- `/tx --command "{\"op\":\"create_poll\",\"poll_id\":\"poll_1\",\"question\":\"Ship release this week?\",\"options\":[\"yes\",\"no\"]}" --sim 1`
+- `/tx --command "{\"op\":\"cast_vote\",\"poll_id\":\"poll_1\",\"option\":\"yes\"}" --sim 1`
+- `/tx --command "poll_results" --sim 1`
+
+Proof artifacts for this run:
+- `proof/run.log`
+- `proof/run-screenshot.png`
+- `proof/command-mapping.log`
+- `proof/README.md`
+- `proof/tx-sim.log`

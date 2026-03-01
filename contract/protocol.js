@@ -150,12 +150,9 @@ class SampleProtocol extends Protocol{
 
         Please study the superclass of this Protocol and Protocol.api to learn more.
         */
-        if(command === 'something'){
-            // type points at the "storeSomething" function in the contract.
-            obj.type = 'storeSomething';
-            // value can be null as there is no other payload, but the property must exist.
+        if (command === 'poll_results') {
+            obj.type = 'pollResults';
             obj.value = null;
-            // return the payload to be used in your contract
             return obj;
         } else if (command === 'read_snapshot') {
             obj.type = 'readSnapshot';
@@ -168,6 +165,13 @@ class SampleProtocol extends Protocol{
         } else if (command === 'read_timer') {
             obj.type = 'readTimer';
             obj.value = null;
+            return obj;
+        } else if(command === 'something'){
+            // type points at the "storeSomething" function in the contract.
+            obj.type = 'storeSomething';
+            // value can be null as there is no other payload, but the property must exist.
+            obj.value = null;
+            // return the payload to be used in your contract
             return obj;
         } else {
             /*
@@ -182,7 +186,21 @@ class SampleProtocol extends Protocol{
             /tx --command '{ "op" : "do_something", "some_key" : "some_data" }' --sim 1
             */
             const json = this.safeJsonParse(command);
-            if(json.op !== undefined && json.op === 'do_something'){
+            if(!json || typeof json !== 'object') return null;
+
+            if(json.op !== undefined && json.op === 'create_poll'){
+                obj.type = 'createPoll';
+                obj.value = json;
+                return obj;
+            } else if (json.op !== undefined && json.op === 'cast_vote') {
+                obj.type = 'castVote';
+                obj.value = json;
+                return obj;
+            } else if (json.op !== undefined && json.op === 'poll_results') {
+                obj.type = 'pollResults';
+                obj.value = json;
+                return obj;
+            } else if(json.op !== undefined && json.op === 'do_something'){
                 obj.type = 'submitSomething';
                 obj.value = json;
                 return obj;
@@ -216,6 +234,9 @@ class SampleProtocol extends Protocol{
         console.log("- /print | use this flag to print some text to the terminal: '--text \"I am printing\"");
         console.log('- /get --key "<key>" [--confirmed true|false] | reads subnet state key (confirmed defaults to true).');
         console.log('- /msb | prints MSB txv + lengths (local MSB node view).');
+        console.log('- /tx --command "{\\"op\\":\\"create_poll\\",\\"poll_id\\":\\"poll_1\\",\\"question\\":\\"Ship release this week?\\",\\"options\\":[\\"yes\\",\\"no\\"]}" | creates a poll.');
+        console.log('- /tx --command "{\\"op\\":\\"cast_vote\\",\\"poll_id\\":\\"poll_1\\",\\"option\\":\\"yes\\"}" | casts a vote.');
+        console.log('- /tx --command "poll_results" | prints latest poll results.');
         console.log('- /tx --command "read_chat_last" | prints last chat message captured by contract.');
         console.log('- /tx --command "read_timer" | prints current timer feature value.');
         console.log('- /sc_join --channel "<name>" | join an ephemeral sidechannel (no autobase).');

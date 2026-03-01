@@ -80,6 +80,31 @@ class SampleContract extends Contract {
                 key : { type : "string", min : 1, max: 256 }
             }
         });
+        this.addSchema('createPoll', {
+            value : {
+                $$strict : true,
+                $$type: "object",
+                op : { type : "string", min : 1, max: 64 },
+                poll_id : { type : "string", min : 1, max: 64 },
+                question : { type : "string", min : 1, max: 256 },
+                options : {
+                    type : "array",
+                    min : 2,
+                    max : 10,
+                    items : { type : "string", min : 1, max : 64 }
+                }
+            }
+        });
+        this.addSchema('castVote', {
+            value : {
+                $$strict : true,
+                $$type: "object",
+                op : { type : "string", min : 1, max: 64 },
+                poll_id : { type : "string", min : 1, max: 64 },
+                option : { type : "string", min : 1, max: 64 }
+            }
+        });
+        this.addFunction('pollResults');
 
         // now we are registering the timer feature itself (see /features/time/ in package).
         // note the naming convention for the feature name <feature-name>_feature.
@@ -205,18 +230,142 @@ class SampleContract extends Contract {
         console.log('submitted by', this.address, parsed);
     }
 
+    async createPoll(){
+        this.assert(this.value?.op === 'create_poll', new Error('invalid op for createPoll'));
+
+        const pollId = String(this.value.poll_id || '').trim();
+        const question = String(this.value.question || '').trim();
+        const optionsRaw = Array.isArray(this.value.options) ? this.value.options : [];
+        this.assert(pollId !== '', new Error('poll_id is required'));
+        this.assert(question !== '', new Error('question is required'));
+        this.assert(optionsRaw.length >= 2, new Error('at least two options are required'));
+
+        const options = [];
+        for (const candidate of optionsRaw) {
+            const option = String(candidate || '').trim();
+            if (option === '') continue;
+            if (options.includes(option) === false) options.push(option);
+        }
+        this.assert(options.length >= 2, new Error('at least two unique options are required'));
+
+        const pollKey = `poll/${pollId}`;
+        const existing = await this.get(pollKey);
+        this.assert(existing === null, new Error('poll_id already exists'));
+
+        const votes = {};
+        for (const option of options) {
+            votes[option] = 0;
+        }
+
+        const currentTime = await this.get('currentTime');
+        const poll = {
+            poll_id: pollId,
+            question,
+            options,
+            votes,
+            created_by: this.address,
+            created_at: currentTime ?? null
+        };
+
+        const index = await this.get('poll/index');
+        const nextIndex = Array.isArray(index) ? index.slice() : [];
+        nextIndex.push(pollId);
+
+        await this.put(pollKey, poll);
+        await this.put('poll/index', nextIndex);
+        await this.put('poll/latest', pollId);
+
+        console.log('poll created', { poll_id: pollId, options: options.length, created_by: this.address });
+    }
+
+    async castVote(){
+        this.assert(this.value?.op === 'cast_vote', new Error('invalid op for castVote'));
+
+        const pollId = String(this.value.poll_id || '').trim();
+        const nextOption = String(this.value.option || '').trim();
+        this.assert(pollId !== '', new Error('poll_id is required'));
+        this.assert(nextOption !== '', new Error('option is required'));
+
+        const pollKey = `poll/${pollId}`;
+        const poll = await this.get(pollKey);
+        this.assert(poll !== null, new Error('poll not found'));
+
+        const options = Array.isArray(poll.options) ? poll.options : [];
+        this.assert(options.includes(nextOption), new Error('option is not available in this poll'));
+
+        const votes = this.protocol.safeClone(poll.votes) || {};
+        for (const option of options) {
+            if (typeof votes[option] !== 'number') votes[option] = 0;
+        }
+
+        const voteKey = `poll/${pollId}/vote/${this.address}`;
+        const previousVote = await this.get(voteKey);
+        if (previousVote && typeof previousVote.option === 'string' && typeof votes[previousVote.option] === 'number') {
+            votes[previousVote.option] = Math.max(0, votes[previousVote.option] - 1);
+        }
+        votes[nextOption] = (votes[nextOption] || 0) + 1;
+
+        const currentTime = await this.get('currentTime');
+        const updatedPoll = this.protocol.safeClone(poll) || {};
+        updatedPoll.votes = votes;
+        updatedPoll.updated_at = currentTime ?? null;
+
+        await this.put(pollKey, updatedPoll);
+        await this.put(voteKey, {
+            voter: this.address,
+            option: nextOption,
+            updated_at: currentTime ?? null
+        });
+
+        console.log('vote updated', { poll_id: pollId, voter: this.address, option: nextOption });
+    }
+
+    async pollResults(){
+        const requestedPollId = this.value?.poll_id ? String(this.value.poll_id).trim() : '';
+        const latestPoll = await this.get('poll/latest');
+        const pollId = requestedPollId || (latestPoll ? String(latestPoll) : '');
+        if (pollId === '') {
+            console.log('poll_results', { poll_id: null, message: 'no poll available yet' });
+            return;
+        }
+
+        const poll = await this.get(`poll/${pollId}`);
+        if (poll === null) {
+            console.log('poll_results', { poll_id: pollId, message: 'poll not found' });
+            return;
+        }
+
+        const votes = poll?.votes && typeof poll.votes === 'object' ? poll.votes : {};
+        const standings = Object.entries(votes)
+            .map(([option, count]) => [option, Number(count) || 0])
+            .sort((a, b) => b[1] - a[1] || String(a[0]).localeCompare(String(b[0])));
+        let totalVotes = 0;
+        for (const [, count] of standings) {
+            totalVotes += count;
+        }
+
+        console.log('poll_results', {
+            poll_id: poll.poll_id || pollId,
+            question: poll.question || null,
+            total_votes: totalVotes,
+            standings
+        });
+    }
+
     async readSnapshot(){
         const something = await this.get('something');
         const currentTime = await this.get('currentTime');
         const msgl = await this.get('msgl');
         const msg0 = await this.get('msg/0');
         const msg1 = await this.get('msg/1');
+        const latestPoll = await this.get('poll/latest');
         console.log('snapshot', {
             something,
             currentTime,
             msgl: msgl ?? 0,
             msg0,
-            msg1
+            msg1,
+            latestPoll
         });
     }
 

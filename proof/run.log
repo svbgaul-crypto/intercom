@@ -1,0 +1,45 @@
+Intercom Fork Proof Run
+=======================
+Run date (local): 2026-03-01
+Timezone: Asia/Bangkok
+Fork URL: https://github.com/svbgaul-crypto/intercom
+Run seed: 2026-03-01
+
+Profile Selection
+-----------------
+profile_id: poll_station
+app_label: Intercom Poll Station
+topology: lifecycle
+naming_mode: compact
+proof_style: tx_sim_focus
+mutating_command: create_poll
+query_command: poll_results
+extra_commands: cast_vote
+payout_trac: trac1svbgaulcrypto09payout09placeholder09replace09me09
+
+Validation
+----------
+- npm install: success (0 vulnerabilities)
+- pear -v: runtime bootstrap warning shown, command succeeded
+- node --check index.js: pass
+- node --check contract/contract.js: pass
+- node --check contract/protocol.js: pass
+
+Runtime Simulation Evidence
+---------------------------
+See proof/tx-sim.log for full SC-Bridge session logs.
+Commands executed:
+1. /tx --command "{\"op\":\"create_poll\",\"poll_id\":\"poll_1\",\"question\":\"Ship release this week?\",\"options\":[\"yes\",\"no\"]}" --sim 1
+2. /tx --command "{\"op\":\"cast_vote\",\"poll_id\":\"poll_1\",\"option\":\"yes\"}" --sim 1
+3. /tx --command "poll_results" --sim 1
+
+Observed outputs:
+- create_poll simulation: OK (poll created output returned)
+- cast_vote simulation: returns contract error (poll not found) because each simulation is isolated from prior uncommitted state
+- poll_results simulation: no poll available yet (expected under isolated simulation state)
+
+Notes
+-----
+- Proof logs were sanitized to remove local home paths and auth token values.
+- Helper logs tx-sim-peer.log and tx-sim-ws.log were retained locally for troubleshooting only.
+

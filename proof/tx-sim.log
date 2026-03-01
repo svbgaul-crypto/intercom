@@ -1,0 +1,108 @@
+node.exe : [ WARNING ] To complete Pear 
+installation, prepend the following to the 
+system Path environment variable:
+At 
+[redacted-home]\AppData\Roaming\npm\pear.ps1:24 
+char:5
++     & "node$exe"  
+"$basedir/node_modules/pear/pear.js" $args
++     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ([ W 
+   ARNING ] To ...nment variable::String) [], R  
+  emoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+[redacted-home]\AppData\Roaming\pear\bin
+Until then, this executable spawns the `pear` 
+binary.
+Fix automatically with: pear run pear://runtime
+[sidechannel] welcome required for non-entry 
+channels; entry "0000intercom" is open and does 
+not require owner/welcome.
+=============== STARTING MSB ===============
+State initialization...
+Network initialization...
+
+#####################################################################################
+# MSB Address:    trac18mzf4jjraxfk7s8trpe246rv9p9qevgghdg2rh8qlqkxx4dqqwsspufjhu  #
+# MSB Writer:     4d259837fa917aed607fabc805f90f110571aa9e54b20b913a4c2551a3624592 #
+#####################################################################################
+Channel: 0000trac0network0msb0mainnet0000
+isIndexer: false
+isWriter: false
+MSB Unsigned Length: 22825
+MSB Signed Length: 22825
+Balance: 0
+=============== STARTING PEER ===============
+
+######################################################################################
+# Peer Address:     259ab01083ab8144417c04b7676b5e75201fbf7f44f898e53f019f611362da51 #
+# Peer Writer:      3a2d48d104e4844a988e65e657527aa340a8414260c5d69f8a999a4d5289d857 #
+######################################################################################
+
+isIndexer: true
+isWriter: true
+
+
+====================INTERCOM ====================
+MSB network bootstrap: acbc3a4344d3a804101d40e53db1dda82b767646425af73599d4cd6577d69685
+MSB channel: 0000trac0network0msb0mainnet0000
+MSB store: stores\proof-poll-msb
+Peer store: stores\proof-poll
+Peer DHT bootstrap nodes: 127.0.0.1:49737
+Peer subnet bootstrap: 3a2d48d104e4844a988e65e657527aa340a8414260c5d69f8a999a4d5289d857
+Peer subnet channel: proof-poll-station
+Peer pubkey (hex): 259ab01083ab8144417c04b7676b5e75201fbf7f44f898e53f019f611362da51
+Peer trac address (bech32m): trac1ykdtqyyr4wq5gstuqjmkw667w5spl0mlgnuf3eflqx0kzymzmfgsfpur2y
+Peer writer key (hex): 3a2d48d104e4844a988e65e657527aa340a8414260c5d69f8a999a4d5289d857
+Sidechannel entry: 0000intercom
+Sidechannel extras: proof-vote-room
+SC-Bridge: ws://127.0.0.1:17777
+================================================================
+
+Sidechannel: ready
+poll created {
+  poll_id: 'poll_1',
+  options: 2,
+  created_by: '259ab01083ab8144417c04b7676b5e75201fbf7f44f898e53f019f611362da51'
+}
+RethrownError: Error in contract.
+    at SampleContract.execute (pear://dev/node_modules/trac-peer/src/artifacts/contract.js:87:27)
+Error: poll not found
+    at SampleContract.castVote (pear://dev/contract/contract.js:291:36)
+    at async SampleContract.execute (pear://dev/node_modules/trac-peer/src/artifacts/contract.js:76:35)
+    at async SampleProtocol.simulateTransaction (pear://dev/node_modules/trac-peer/src/artifacts/protocol.js:193:16)
+    at async SampleProtocol.broadcastTransaction (pear://dev/node_modules/trac-peer/src/artifacts/protocol.js:206:20)
+    at async SampleProtocol.tx (pear://dev/node_modules/trac-peer/src/artifacts/protocol.js:285:20)
+    at async TerminalHandlers.tx (pear://dev/node_modules/trac-peer/src/terminal/handlers.js:417:19)
+    at async ScBridge._withConsoleCapture (pear://dev/features/sc-bridge/index.js:449:22) {
+  name: 'RethrownError',
+  original_error: Error: poll not found
+        at SampleContract.castVote (pear://dev/contract/contract.js:291:36)
+        at async SampleContract.execute (pear://dev/node_modules/trac-peer/src/artifacts/contract.js:76:35)
+        at async SampleProtocol.simulateTransaction (pear://dev/node_modules/trac-peer/src/artifacts/protocol.js:193:16)
+        at async SampleProtocol.broadcastTransaction (pear://dev/node_modules/trac-peer/src/artifacts/protocol.js:206:20)
+        at async SampleProtocol.tx (pear://dev/node_modules/trac-peer/src/artifacts/protocol.js:285:20)
+        at async TerminalHandlers.tx (pear://dev/node_modules/trac-peer/src/terminal/handlers.js:417:19)
+        at async ScBridge._withConsoleCapture (pear://dev/features/sc-bridge/index.js:449:22),
+  stack_before_rethrow: 'RethrownError: Error in contract.\n    at SampleContract.execute (pear://dev/node_modules/trac-peer/src/artifacts/contract.js:87:27)\n    at async SampleProtocol.simulateTransaction (pear://dev/node_modules/trac-peer/src/artifacts/protocol.js:193:16)\n    at async SampleProtocol.broadcastTransaction (pear://dev/node_modules/trac-peer/src/artifacts/protocol.js:206:20)\n    at async SampleProtocol.tx (pear://dev/node_modules/trac-peer/src/artifacts/protocol.js:285:20)\n    at async TerminalHandlers.tx (pear://dev/node_modules/trac-peer/src/terminal/handlers.js:417:19)\n    at async ScBridge._withConsoleCapture (pear://dev/features/sc-bridge/index.js:449:22)'
+}
+poll_results { poll_id: null, message: 'no poll available yet' }
+Exiting...
+TransactionObserver: closing gracefully...
+Updater: closing gracefully...
+[open] ws://127.0.0.1:17777
+[send] {"type":"auth","token":"[redacted-token]"}
+[recv] {"type":"hello","peer":"259ab01083ab8144417c04b7676b5e75201fbf7f44f898e53f019f611362da51","address":"trac1ykdtqyyr4wq5gstuqjmkw667w5spl0mlgnuf3eflqx0kzymzmfgsfpur2y","entryChannel":"0000intercom","filter":"","requiresAuth":true}
+[recv] {"type":"auth_ok"}
+[send] {"type":"cli","command":"/tx --command \"{\\\"op\\\":\\\"create_poll\\\",\\\"poll_id\\\":\\\"poll_1\\\",\\\"question\\\":\\\"Ship release this week?\\\",\\\"options\\\":[\\\"yes\\\",\\\"no\\\"]}\" --sim 1"}
+[recv] {"type":"cli_result","command":"/tx --command \"{\\\"op\\\":\\\"create_poll\\\",\\\"poll_id\\\":\\\"poll_1\\\",\\\"question\\\":\\\"Ship release this week?\\\",\\\"options\\\":[\\\"yes\\\",\\\"no\\\"]}\" --sim 1","ok":true,"output":["poll created {\"poll_id\":\"poll_1\",\"options\":2,\"created_by\":\"259ab01083ab8144417c04b7676b5e75201fbf7f44f898e53f019f611362da51\"}"],"error":null}
+[send] {"type":"cli","command":"/tx --command \"{\\\"op\\\":\\\"cast_vote\\\",\\\"poll_id\\\":\\\"poll_1\\\",\\\"option\\\":\\\"yes\\\"}\" --sim 1"}
+[recv] {"type":"cli_result","command":"/tx --command \"{\\\"op\\\":\\\"cast_vote\\\",\\\"poll_id\\\":\\\"poll_1\\\",\\\"option\\\":\\\"yes\\\"}\" --sim 1","ok":true,"output":["{\"name\":\"RethrownError\",\"original_error\":{},\"stack_before_rethrow\":\"RethrownError: Error in contract.\\n    at SampleContract.execute (pear://dev/node_modules/trac-peer/src/artifacts/contract.js:87:27)\\n    at async SampleProtocol.simulateTransaction (pear://dev/node_modules/trac-peer/src/artifacts/protocol.js:193:16)\\n    at async SampleProtocol.broadcastTransaction (pear://dev/node_modules/trac-peer/src/artifacts/protocol.js:206:20)\\n    at async SampleProtocol.tx (pear://dev/node_modules/trac-peer/src/artifacts/protocol.js:285:20)\\n    at async TerminalHandlers.tx (pear://dev/node_modules/trac-peer/src/terminal/handlers.js:417:19)\\n    at async ScBridge._withConsoleCapture (pear://dev/features/sc-bridge/index.js:449:22)\"}"],"error":null,"result":false}
+[send] {"type":"cli","command":"/tx --command \"poll_results\" --sim 1"}
+[recv] {"type":"cli_result","command":"/tx --command \"poll_results\" --sim 1","ok":true,"output":["poll_results {\"poll_id\":null,\"message\":\"no poll available yet\"}"],"error":null}
+[send] {"type":"cli","command":"/exit"}
+[close] done sending commands
+
+
