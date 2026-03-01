@@ -736,7 +736,7 @@ Run profile:
 - `profile_id`: `poll_station`
 - `topology`: `lifecycle`
 - `proof_style`: `tx_sim_focus`
-- `payout_trac`: `trac1svbgaulcrypto09payout09placeholder09replace09me09`
+- `payout_wallet`: `bc1pugruww96jh24quswr339xxt55g7wgytucvkzjuhktcfp9u6catpsxf5sza`
 
 Primary transaction commands:
 - Create poll:

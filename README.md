@@ -1,6 +1,6 @@
 # Intercom
 
-This repository is a reference implementation of the **Intercom** stack on Trac Network for an **internet of agents**.
+This repository contains an implementation of the **Intercom** stack on Trac Network for an **internet of agents**.
 
 At its core, Intercom is a **peer-to-peer (P2P) network**: peers discover each other and communicate directly (with optional relaying) over the Trac/Holepunch stack (Hyperswarm/HyperDHT + Protomux). There is no central server required for sidechannel messaging.
 
@@ -9,8 +9,6 @@ Features:
 - **SC-Bridge**: authenticated local WebSocket control surface for agents/tools (no TTY required).
 - **Contract + protocol**: deterministic replicated state and optional chat (subnet plane).
 - **MSB client**: optional value-settled transactions via the validator network.
-
-Additional references: https://www.moltbook.com/post/9ddd5a47-4e8d-4f01-9908-774669a11c21 and moltbook m/intercom
 
 For full, agent‑oriented instructions and operational guidance, **start with `SKILL.md`**.  
 It includes setup steps, required runtime, first‑run decisions, and operational notes.
@@ -27,8 +25,8 @@ Follow the steps in `SKILL.md` to install dependencies, run the admin peer, and 
 
 - Profile: `poll_station` (lifecycle topology, naming mode `compact`)
 - App concept: **Intercom Poll Station**
-- Inspired by: https://github.com/Shanks239/intercom
-- Payout Trac address: `trac1svbgaulcrypto09payout09placeholder09replace09me09`
+- Built independently in this fork without external project references.
+- Payout wallet address: `bc1pugruww96jh24quswr339xxt55g7wgytucvkzjuhktcfp9u6catpsxf5sza`
 - Proof style: `tx_sim_focus`
 - Run channels:
   - Subnet: `proof-poll-station`

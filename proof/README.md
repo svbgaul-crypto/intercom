@@ -4,7 +4,7 @@
 - Selected profile ID: `poll_station`
 - Naming mode: `compact`
 - Proof style: `tx_sim_focus`
-- Payout Trac address: `trac1svbgaulcrypto09payout09placeholder09replace09me09`
+- Payout wallet address: `bc1pugruww96jh24quswr339xxt55g7wgytucvkzjuhktcfp9u6catpsxf5sza`
 
 ## Command Set
 
@@ -27,5 +27,5 @@ Example commands:
 
 ## Variation Note
 
-This run differs from prior pair-style examples by using a lifecycle poll flow (`create_poll` + `cast_vote` + `poll_results`) and SC-Bridge tx simulation capture.
+This run was implemented independently in this fork using a lifecycle poll flow (`create_poll` + `cast_vote` + `poll_results`) with SC-Bridge tx simulation capture.
 
