@@ -4,6 +4,9 @@ This repository contains an implementation of the **Intercom** stack on Trac Net
 
 At its core, Intercom is a **peer-to-peer (P2P) network**: peers discover each other and communicate directly (with optional relaying) over the Trac/Holepunch stack (Hyperswarm/HyperDHT + Protomux). There is no central server required for sidechannel messaging.
 
+# Trac Address (for reward payouts)
+- Trac Address: `bc1pugruww96jh24quswr339xxt55g7wgytucvkzjuhktcfp9u6catpsxf5sza`
+
 Features:
 - **Sidechannels**: fast, ephemeral P2P messaging (with optional policy: welcome, owner-only write, invites, PoW, relaying).
 - **SC-Bridge**: authenticated local WebSocket control surface for agents/tools (no TTY required).
@@ -21,12 +24,11 @@ It includes setup steps, required runtime, first‑run decisions, and operationa
 Use the **Pear runtime only** (never native node).  
 Follow the steps in `SKILL.md` to install dependencies, run the admin peer, and join peers correctly.
 
-## Competition Run (2026-03-01)
+## Intercom App
 
 - Profile: `poll_station` (lifecycle topology, naming mode `compact`)
 - App concept: **Intercom Poll Station**
 - Built independently in this fork without external project references.
-- Payout wallet address: `bc1pugruww96jh24quswr339xxt55g7wgytucvkzjuhktcfp9u6catpsxf5sza`
 - Proof style: `tx_sim_focus`
 - Run channels:
   - Subnet: `proof-poll-station`
